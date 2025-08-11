@@ -14,8 +14,8 @@ const app = express();
 
 // Middleware
 const allowedOrigins = [
-    'http://localhost:5173', // Your local dev environment
-    'https://checkmyattendance.netlify.app/' // Your live frontend URL (placeholder)
+    'http://localhost:5173',
+    'https://checkmyattendance.netlify.app' // <-- THIS IS THE CORRECT LINK
 ];
 
 const corsOptions = {
@@ -27,6 +27,7 @@ const corsOptions = {
         }
     }
 };
+
 app.use(cors(corsOptions));
 app.use(express.json()); // Allows server to accept JSON data
 app.use('/api/auth', authRoutes);
