@@ -13,7 +13,21 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors()); // Allows frontend to communicate with backend
+const allowedOrigins = [
+    'http://localhost:5173', // Your local dev environment
+    'https://YOUR_NETLIFY_SITE_NAME.netlify.app' // Your live frontend URL (placeholder)
+];
+
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
+};
+app.use(cors(corsOptions));
 app.use(express.json()); // Allows server to accept JSON data
 app.use('/api/auth', authRoutes);
 app.use('/api/attendance', attendanceRoutes);

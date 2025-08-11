@@ -2,7 +2,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:5000/api',
+    // This will use the live URL in production and localhost in development
+    baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api',
 });
 
 // Interceptor to add the token to every request
