@@ -15,7 +15,7 @@ const app = express();
 // Middleware
 const allowedOrigins = [
     'http://localhost:5173', // Your local dev environment
-    'https://689a54c0c711771de01a6498--checkmyattendance.netlify.app/' // Your live frontend URL (placeholder)
+    'https://checkmyattendance.netlify.app/' // Your live frontend URL (placeholder)
 ];
 
 const corsOptions = {
