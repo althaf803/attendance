@@ -1,4 +1,5 @@
 // In frontend/src/pages/RegistrationPage.jsx
+
 import { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
@@ -8,7 +9,7 @@ const RegistrationPage = () => {
     const [password, setPassword] = useState('');
     const [targetPercentage, setTargetPercentage] = useState('75');
     const [error, setError] = useState('');
-    const { register } = useContext(AuthContext); // We will add this function next
+    const { register } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -21,7 +22,9 @@ const RegistrationPage = () => {
             await register(username, password, targetPercentage);
             navigate('/');
         } catch (err) {
-            setError(err.response?.data?.message || 'Failed to register.');
+            // THIS IS THE IMPORTANT CHANGE:
+            // It reads the specific error message from the backend response.
+            setError(err.response?.data?.message || 'Failed to register. Please try again.');
         }
     };
 
@@ -32,7 +35,7 @@ const RegistrationPage = () => {
                 <label>Username:</label>
                 <input
                     type="text"
-                    placeholder="Choose a username"
+                    placeholder="Choose a unique username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     required
@@ -54,7 +57,7 @@ const RegistrationPage = () => {
                     required
                 />
                 <button type="submit">Register</button>
-                {error && <p style={{ color: 'red' }}>{error}</p>}
+                {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
             </form>
             <p style={{ textAlign: 'center', marginTop: '1rem' }}>
                 Already have an account? <Link to="/login">Login here</Link>
