@@ -1,8 +1,7 @@
-// In frontend/src/pages/RegistrationPage.jsx
-
 import { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
+import { Button, TextField, Box, Typography, Container, Card, CardContent, Alert } from '@mui/material';
 
 const RegistrationPage = () => {
     const [username, setUsername] = useState('');
@@ -22,47 +21,69 @@ const RegistrationPage = () => {
             await register(username, password, targetPercentage);
             navigate('/');
         } catch (err) {
-            // THIS IS THE IMPORTANT CHANGE:
-            // It reads the specific error message from the backend response.
             setError(err.response?.data?.message || 'Failed to register. Please try again.');
         }
     };
 
     return (
-        <div className="card" style={{ maxWidth: '400px', margin: '50px auto' }}>
-            <h2>Create Your Account</h2>
-            <form onSubmit={handleSubmit}>
-                <label>Username:</label>
-                <input
-                    type="text"
-                    placeholder="Choose a unique username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                />
-                <label>Password (min. 6 characters):</label>
-                <input
-                    type="password"
-                    placeholder="Create a secure password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-                <label>My Attendance Target (%):</label>
-                <input
-                    type="number"
-                    placeholder="e.g., 75"
-                    value={targetPercentage}
-                    onChange={(e) => setTargetPercentage(e.target.value)}
-                    required
-                />
-                <button type="submit">Register</button>
-                {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
-            </form>
-            <p style={{ textAlign: 'center', marginTop: '1rem' }}>
-                Already have an account? <Link to="/login">Login here</Link>
-            </p>
-        </div>
+        <Container component="main" maxWidth="xs">
+            <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Card sx={{ width: '100%', p: 2 }}>
+                    <CardContent>
+                        <Typography component="h1" variant="h5" align="center" gutterBottom>
+                            Create Account
+                        </Typography>
+                        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="username"
+                                label="Username"
+                                name="username"
+                                autoComplete="username"
+                                autoFocus
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="new-password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="targetPercentage"
+                                label="Attendance Target (%)"
+                                type="number"
+                                id="targetPercentage"
+                                value={targetPercentage}
+                                onChange={(e) => setTargetPercentage(e.target.value)}
+                            />
+                            {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+                            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                                Sign Up
+                            </Button>
+                            <Typography variant="body2" align="center">
+                                Already have an account?{' '}
+                                <Link to="/login" style={{ textDecoration: 'none' }}>
+                                    Sign In
+                                </Link>
+                            </Typography>
+                        </Box>
+                    </CardContent>
+                </Card>
+            </Box>
+        </Container>
     );
 };
 
